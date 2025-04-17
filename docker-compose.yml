@@ -83,6 +83,19 @@ services:
     env_file: env/redis-cache.env
     volumes:
       - netbox-redis-cache-data:/data
+  
+  # nginx
+  nginx: &nginx
+  image: nginx:latest
+  ports:
+    - "80:80"
+    - "443:443"
+  volumes:
+    - /opt/netbox-nginx-ssl/nginx.conf:/etc/nginx/conf.d/default.conf
+    - /opt/netbox-nginx-ssl/nginx.crt:/etc/nginx/nginx.crt
+    - /opt/netbox-nginx-ssl/nginx.key:/etc/nginx/nginx.key
+  depends_on:
+    - netbox
 
 volumes:
   netbox-media-files:
